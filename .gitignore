@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data & output
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.jpg
+*.jpeg
+*.png
+*.tiff
+*.bmp
+*.gif
+*.csv
+*.tsv
+*.h5
+*.log
+*.out
+*.tmp
+.DS_Store
+runs/
+checkpoints/
+slurm-*.out
+
+# Conda environment
+*.env
+*.yml
+
+# VSCode or IDE files
+.vscode/
+.idea/
+
+# shared data path
+/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames/X
+/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/
+

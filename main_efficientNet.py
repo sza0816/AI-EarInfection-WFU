@@ -30,7 +30,7 @@ num_workers=1
 # lr_1 = 2.45e-04                  # 'lr': 0.00024549149514035127
 # lr_2 = 1e-04
 lr = 1e-04
-weight_decay=0.0016         # 'weight_decay': 0.0016129052139732972
+weight_decay=0.002         # 'weight_decay': 0.0016129052139732972
 
 num_epochs = 64
 patience=5             # for early stopping

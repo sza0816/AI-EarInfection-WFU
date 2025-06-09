@@ -1,5 +1,6 @@
 ### still looking for the best hyperparameters
 
+
 #%%
 from dataset import build_dataloader
 from models import models
@@ -26,7 +27,9 @@ root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/
 split_ratio=(0.65, 0.2)
 batch_size=67
 num_workers=1
-lr = 2.45e-04               # 'lr': 0.00024549149514035127
+# lr_1 = 2.45e-04                  # 'lr': 0.00024549149514035127
+# lr_2 = 1e-04
+lr = 1e-04
 weight_decay=0.0016         # 'weight_decay': 0.0016129052139732972
 
 num_epochs = 64

@@ -70,7 +70,6 @@ else:
 
 set_seed(42) 
 
-
 # Use GPU if available, else use CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

@@ -30,6 +30,8 @@ num_workers=1
 # lr_1 = 2.45e-04                  # 'lr': 0.00024549149514035127
 # lr_2 = 1e-04
 lr = 1e-04
+# wd_1 = 0.0016
+# wd_2 = 0.002
 weight_decay=0.002         # 'weight_decay': 0.0016129052139732972
 
 num_epochs = 64
@@ -45,6 +47,7 @@ patience_schedule=3
 weight_loss_flag = False           # whether to apply class-balanced weighting to the loss function
 mixup_flag = False                 # whether to apply data augmentation
 
+set_seed(42)
 
 train_loader, val_loader, test_loader,valid_classes, class_counts  = build_dataloader(root_dir, \
                                                                                       split_ratio=split_ratio, \
@@ -71,7 +74,6 @@ if weight_loss_flag:
 else:
     weights_tensor = None
 
-set_seed(42) 
 
 # Use GPU if available, else use CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -83,7 +85,6 @@ model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
 model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
 model = model.to(device)
 
-# print(f"view number of fc features: {model.classifier[1].in_features}")
 
 if mixup_flag:
     criterion = nn.BCEWithLogitsLoss(weight=weights_tensor)        # if mixup, use binary cross entropy with logits loss function

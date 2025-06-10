@@ -11,7 +11,12 @@ if __name__ == '__main__':
 
     # Ensure that the root directory is in sys.path
     sys.path.insert(0, root_dir)
+
 from utils import get_valid_classes
+import numpy as np
+import random
+import torch
+
 #%%
 class FilteredImageFolder(datasets.ImageFolder):
     def __init__(self, root, valid_classes, transform=None):
@@ -51,6 +56,17 @@ class GaussianNoise(object):
         return tensor + noise
     
 def build_dataloader(root_dir, split_ratio=(0.70, 0.15), batch_size=32, num_workers=4):
+
+    # set seed worker to prevent randomized accuracy each time
+    def seed_worker(id):
+        worker_seed = torch.initial_seed() % 2**32
+        np.random.seed(worker_seed)
+        random.seed(worker_seed)
+
+    g = torch.Generator()
+    g.manual_seed(42)
+
+    # start transformation here
     train_transform = transforms.Compose([
         transforms.RandomApply([transforms.RandomResizedCrop(224, scale=(0.8, 1.0), ratio=(0.9, 1.1))], p=1.0),  # Rescale & Aspect Ratio
         transforms.RandomRotation(degrees=(0, 360)),  # Random Rotation between 0 and 360 degrees
@@ -92,9 +108,9 @@ def build_dataloader(root_dir, split_ratio=(0.70, 0.15), batch_size=32, num_work
             class_count_new[value]=class_count[key]
     # Step 5: Create DataLoaders for each subset
     batch_size = 32
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
-    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, worker_init_fn = seed_worker, generator = g)         # shuffle = True here
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, worker_init_fn = seed_worker, generator = g)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, worker_init_fn = seed_worker, generator = g)
 
     # Step 6: Display a summary of the data split
     print("\nData splitted successfully: \n")

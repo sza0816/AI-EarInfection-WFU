@@ -195,8 +195,9 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.show()
 
     # return
-    return acc, auc, precision, recall, f1, cm, fpr, tpr            # return ?
+    return acc, auc, precision, recall, f1, cm, fpr, tpr
 
+# set seed, prevent random accuracy
 def set_seed(seed = 42):
     random.seed(seed)
     np.random.seed(seed)

@@ -36,6 +36,7 @@ patience_schedule=3
 weight_loss_flag = False
 mixup_flag = False
 
+set_seed(42)
 
 train_loader, val_loader, test_loader,valid_classes, class_counts  = build_dataloader(root_dir, \
                                                                                       split_ratio=split_ratio, \
@@ -62,7 +63,6 @@ else:
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # print("using CUDA" if torch.cuda.is_available() else "using CPU")
 
-set_seed(42)
 
 # Model: ResNet34 (adjusted for number of classes)
 num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
@@ -72,6 +72,7 @@ model.fc = nn.Linear(model.fc.in_features, num_classes)     # adjust the fully c
                                                             # in_feature: feature dim in fc
 # print(f"\nsee fc structure: \n{model.fc}\n")
 model = model.to(device)                                    # move model to CPU
+
 
 # Define the criterion, optimizer, and scheduler
 # criterion, loss function object, tells how wrong the models are

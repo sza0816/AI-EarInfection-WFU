@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --time=0-00:45:00               # specify job time
 #SBATCH --mem=32G         # specify memory
-#SBATCH --output=job_resNet34_output.log
+#SBATCH --output=output_resnet34/job_resNet34_output.log             # resnet34 = model name!!
 
 module load cuda-toolkit/12.2.2  # load necessary modules
 

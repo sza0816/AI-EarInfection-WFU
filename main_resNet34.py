@@ -119,7 +119,7 @@ plt.title('Training and Validation Loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
-plt.savefig(f"T_V_loss_{model_name}.png")  # Save the figure before plt.show(
+plt.savefig(f"output_{model_name}/T_V_loss_{model_name}.png")  # Save the figure before plt.show(
 plt.show()
 
 # Step 4: Evaluate the model on the test set

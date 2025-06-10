@@ -29,10 +29,12 @@ batch_size=67
 num_workers=1
 # lr_1 = 2.45e-04                  # 'lr': 0.00024549149514035127
 # lr_2 = 1e-04
-lr = 1e-04
+# lr_3 = 8e-05
+lr = 8e-05
 # wd_1 = 0.0016
 # wd_2 = 0.002
-weight_decay=0.002         # 'weight_decay': 0.0016129052139732972
+# wd_3 = 0.0018
+weight_decay=0.0016         # 'weight_decay': 0.0016129052139732972
 
 num_epochs = 64
 patience=5             # for early stopping
@@ -128,7 +130,7 @@ plt.title('EfficientNet Training and Validation Loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
-plt.savefig(f"T_V_loss_{model_name}.png")  # Save the figure before plt.show(
+plt.savefig(f"output_{model_name}/T_V_loss_{model_name}.png")  # Save the figure before plt.show(
 plt.show()
 
 # Evaluate model on the test set

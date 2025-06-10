@@ -4,7 +4,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --time=02:00:00       # specify job time
 #SBATCH --mem=16G                 # specify memory
-#SBATCH --output=job_tune_parameter_output.log
+#SBATCH --output=output_param_search/job_tune_parameter_output.log
 
 module load cuda-toolkit/12.2.2  # load necessary modules
 

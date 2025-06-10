@@ -170,15 +170,16 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     print("\nClassification Report:\n", classification_report(all_labels, all_preds))
 
 
-    # calculate ROC curve and plot
+    ### ROC curves ###
+
     all_labels = np.array(all_labels)                                           # convert arrays to numpy.ndarray
     all_probs = np.array(all_probs)
     
     n_classes = all_probs.shape[1]                                               # identify the number of classes
     y_true_bin = label_binarize(all_labels, classes = list(range(n_classes)))    # turn true label into one-hot label
-
-    plt.figure()
+    
     # plot roc curve for each class
+    plt.figure()
     for i in range(n_classes):
         fpr, tpr, _ = roc_curve(y_true_bin[:, i], all_probs[:,i])
         auc = roc_auc_score(y_true_bin[:, i], all_probs[:,i])
@@ -191,7 +192,23 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.legend(loc = "lower right")
     plt.grid(True)
     # save plot to png file
-    plt.savefig(f"ROC_curve_{model_name}.png")
+    plt.savefig(f"output_{model_name}/ROC_each_class_{model_name}.png")             # important: the model_name has to match the name of the output folder
+    plt.show()
+
+
+    # plot micro-avg roc curve
+    fpr_m, tpr_m, _ = roc_curve(y_true_bin.ravel(), all_probs.ravel())
+    auc_m = roc_auc_score(y_true_bin, all_probs, average = 'micro')
+
+    plt.figure()
+    plt.plot(fpr_m, tpr_m, label = f'Micro-avg ROC (AUC={auc_m:.4f})', linewidth = 2)
+    plt.plot([0, 1], [0, 1], linestyle = '--', color = "grey") 
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title(f"Micro-Avged ROC Curve for {model_name}")
+    plt.legend(loc = "lower right")
+    plt.grid(True)
+    plt.savefig(f"output_{model_name}/ROC_MicroAvg_{model_name}.png")
     plt.show()
 
     # return

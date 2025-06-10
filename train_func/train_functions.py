@@ -148,7 +148,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
 
     # Calculate metrics
     acc = accuracy_score(all_labels, all_preds)
-    auc = roc_auc_score(all_labels, all_probs, multi_class='ovr')
+    AUC = roc_auc_score(all_labels, all_probs, multi_class='ovr')
     precision = precision_score(all_labels, all_preds, average='macro')
     recall = recall_score(all_labels, all_preds, average='macro')
     f1 = f1_score(all_labels, all_preds, average='macro')
@@ -162,7 +162,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
 
     print("Evaluation Metrics:")
     print(f"Accuracy: {acc:.4f}")
-    print(f"AUC: {auc:.4f}")
+    print(f"AUC: {AUC:.4f}")
     print(f"Precision: {precision:.4f}")
     print(f"Recall: {recall:.4f}")
     print(f"F1-score: {f1:.4f}")
@@ -178,12 +178,12 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     n_classes = all_probs.shape[1]                                               # identify the number of classes
     y_true_bin = label_binarize(all_labels, classes = list(range(n_classes)))    # turn true label into one-hot label
     
-    # plot roc curve for each class
+    # --------------------------------------plot roc curve for each class----------------------------------------------
     plt.figure()
     for i in range(n_classes):
         fpr, tpr, _ = roc_curve(y_true_bin[:, i], all_probs[:,i])
-        auc = roc_auc_score(y_true_bin[:, i], all_probs[:,i])
-        plt.plot(fpr, tpr, label =f'Class {i} (AUC = {auc:.4f})')
+        auc_each = roc_auc_score(y_true_bin[:, i], all_probs[:,i])
+        plt.plot(fpr, tpr, label =f'Class {i} (AUC = {auc_each:.4f})')
 
     plt.plot([0, 1], [0, 1], linestyle = '--', color = "grey")         # diagonal line
     plt.xlabel("False Positive Rate")
@@ -196,7 +196,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.show()
 
 
-    # plot micro-avg roc curve
+    # ------------------------------------------plot micro-avg roc curve---------------------------------------------
     fpr_m, tpr_m, _ = roc_curve(y_true_bin.ravel(), all_probs.ravel())
     auc_m = roc_auc_score(y_true_bin, all_probs, average = 'micro')
 
@@ -213,7 +213,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
 
 # need to be tested
 
-    # plot macro-avg roc curve
+    # ------------------------------------------plot macro-avg roc curve----------------------------------------------
     fpr_dict = {}                     # store true-label into one-hot
     tpr_dict = {} 
     roc_auc_dict = {} 
@@ -244,7 +244,8 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
 # needs to be tested
 
     # return
-    return acc, auc, precision, recall, f1, cm, fpr, tpr
+    return acc, AUC, precision, recall, f1, cm
+    # return roc fpr, tpr ?
 
 # set seed, prevent random accuracy
 def set_seed(seed = 42):

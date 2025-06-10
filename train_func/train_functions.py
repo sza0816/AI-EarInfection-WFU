@@ -1,5 +1,5 @@
 import torch
-from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_curve
+from sklearn.metrics import accuracy_score, roc_auc_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix, roc_curve, auc
 from sklearn.preprocessing import label_binarize
 import matplotlib.pyplot as plt
 import numpy as np
@@ -192,7 +192,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.legend(loc = "lower right")
     plt.grid(True)
     # save plot to png file
-    plt.savefig(f"output_{model_name}/ROC_each_class_{model_name}.png")             # important: the model_name has to match the name of the output folder
+    plt.savefig(f"output_{model_name}/ROC_EachClass_{model_name}.png")             # important: the model_name has to match the name of the output folder
     plt.show()
 
 
@@ -210,6 +210,38 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.grid(True)
     plt.savefig(f"output_{model_name}/ROC_MicroAvg_{model_name}.png")
     plt.show()
+
+# need to be tested
+
+    # plot macro-avg roc curve
+    fpr_dict = {}                     # store true-label into one-hot
+    tpr_dict = {} 
+    roc_auc_dict = {} 
+
+    for i in range(n_classes):                                                    # maybe combine this part with the previous ?
+        fpr_dict[i], tpr_dict[i], _ = roc_curve(y_true_bin[:, i], all_probs[:, i])  
+        roc_auc_dict[i] = auc(fpr_dict[i], tpr_dict[i]) 
+
+    all_fpr = np.unique(np.concatenate([fpr_dict[i] for i in range(n_classes)])) 
+
+    mean_tpr = np.zeros_like(all_fpr) 
+    for i in range(n_classes): 
+        mean_tpr += np.interp(all_fpr, fpr_dict[i], tpr_dict[i])          # calculate mean tpr
+    
+    mean_tpr /= n_classes
+    macro_auc = auc(all_fpr, mean_tpr)
+
+    plt.figure() 
+    plt.plot(all_fpr, mean_tpr, label=f"Macro-average ROC (AUC = {macro_auc:.4f})", linewidth=2) 
+    plt.plot([0, 1], [0, 1], linestyle='--', color='gray') 
+    plt.xlabel("False Positive Rate") 
+    plt.ylabel("True Positive Rate") 
+    plt.title(f"Macro-Averaged ROC Curve for {model_name}") 
+    plt.legend(loc="lower right") 
+    plt.grid(True) 
+    plt.savefig(f"output_{model_name}/ROC_MacroAvg_{model_name}.png")
+    plt.show()
+# needs to be tested
 
     # return
     return acc, auc, precision, recall, f1, cm, fpr, tpr

@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=my_job
-#SBATCH --partition=gpu-h100
+#SBATCH --partition=ciaq                      # gpu-h100
 #SBATCH --gres=gpu:1
 #SBATCH --time=02:00:00       # specify job time
 #SBATCH --mem=16G                 # specify memory

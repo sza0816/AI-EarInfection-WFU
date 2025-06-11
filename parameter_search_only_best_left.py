@@ -31,6 +31,20 @@ import os
 # weight_loss_flag = True
 # mixup_flag = True
 
+# testing if path exists
+print("Running on:", os.uname().nodename)
+print("Can see data?", os.path.exists("/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all"))
+
+# problem reasoning: the data folder can only be accessed through certain partition & node, such as ciaq
+
+# -----------------------------------------testing root_dir-----------------------------------------------------
+ # auto selected frames - 4 classes, take care
+root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
+
+
+# human selected frames - 4 classes
+# root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
+
 def objective(trial):
     split_ratio=(0.70, 0.15)
     scheduler_flag = False
@@ -48,11 +62,8 @@ def objective(trial):
 
     # root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
 
-    # auto selected frames - 4 classes, take care
-    root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
-
-    # human selected frames - 4 classes
-    # root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
+    # print("Trial running with root_dir:", root_dir)      # debug
+    # print("Exists?", os.path.exists(root_dir))
 
     train_loader, val_loader, test_loader,valid_classes, class_counts  = build_dataloader(root_dir, split_ratio=split_ratio, batch_size=batch_size, num_workers=num_workers)
 
@@ -78,7 +89,7 @@ def objective(trial):
     # Model: ResNet34 (adjusted for number of classes)
     num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
     model_name = 'ResNet34'
-    model = models.resnet34(pretrained=True)
+    model = models.resnet34(weights = "IMAGENET1K_V1")
     model.fc = nn.Linear(model.fc.in_features, num_classes)
     model = model.to(device)
 
@@ -125,7 +136,7 @@ def objective_wrapper(trial):
 study = optuna.create_study(direction='maximize')
 
 ### testing ###
-study.optimize(objective_wrapper, n_trials=100, timeout = 3600)                    # to prevent infinite running
+study.optimize(objective_wrapper, n_trials=50, timeout = 3600)                    # to prevent infinite running
 
 # Get the best parameters
 best_params = study.best_params

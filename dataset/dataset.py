@@ -85,7 +85,7 @@ def build_dataloader(root_dir, split_ratio=(0.70, 0.15), batch_size=32, num_work
 
     # valid_classes,class_count = get_valid_classes(root_dir, min_images=50)
     # Load the dataset with only valid classes
-    valid_classes, class_count = get_valid_classes(root_dir, min_images=50)
+    valid_classes, class_count = get_valid_classes(root_dir, min_images=35)                ### get_valid_classes called here
 
     # Load the dataset with only valid classes for splitting
     full_dataset = FilteredImageFolder(root=root_dir, valid_classes=valid_classes)

@@ -1,6 +1,14 @@
 from collections import defaultdict
 import os
 
+### mark, min_images might be too large for small datasets of human/auto_selected frames
+
+# 38 in perforation
+# 41 in tympanosclerosis
+# 50+ in normal
+# 50+ in effusion
+
+### currently reset min_images = 35, in dataset.py
 def get_valid_classes(root_dir, min_images=50):
     class_counts = defaultdict(int)
     for root, _, files in os.walk(root_dir):
@@ -34,6 +42,6 @@ def get_valid_classes_with_folders(root_dir, threshold=50):
                 class_counts[folder] = max(num_images, num_bags)
 
     # Output valid classes
-    print(f"Classes with more than {threshold} images or image bags: {valid_classes}")
+    print(f"Classes with more than {threshold} images or image bags: {valid_classes}")          ### mark
     
     return valid_classes, class_counts

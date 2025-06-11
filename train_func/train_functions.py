@@ -148,7 +148,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
 
     # Calculate metrics
     acc = accuracy_score(all_labels, all_preds)
-    AUC = roc_auc_score(all_labels, all_probs, multi_class='ovr')
+    AUC = roc_auc_score(all_labels, all_probs, multi_class='ovr')          # AUC, it is for multiclass, so class_num must > 2
     precision = precision_score(all_labels, all_preds, average='macro')
     recall = recall_score(all_labels, all_preds, average='macro')
     f1 = f1_score(all_labels, all_preds, average='macro')
@@ -211,9 +211,8 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.savefig(f"output_{model_name}/ROC_MicroAvg_{model_name}.png")
     plt.show()
 
-# need to be tested
-
     # ------------------------------------------plot macro-avg roc curve----------------------------------------------
+
     fpr_dict = {}                     # store true-label into one-hot
     tpr_dict = {} 
     roc_auc_dict = {} 
@@ -241,7 +240,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.grid(True) 
     plt.savefig(f"output_{model_name}/ROC_MacroAvg_{model_name}.png")
     plt.show()
-# needs to be tested
+
 
     # return
     return acc, AUC, precision, recall, f1, cm

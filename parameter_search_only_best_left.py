@@ -45,6 +45,7 @@ root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_sele
 # human selected frames - 4 classes
 # root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
 
+# ---------------------------------------------------------------------------------------------------------------
 def objective(trial):
     split_ratio=(0.70, 0.15)
     scheduler_flag = False
@@ -64,6 +65,7 @@ def objective(trial):
 
     # print("Trial running with root_dir:", root_dir)      # debug
     # print("Exists?", os.path.exists(root_dir))
+    set_seed(42)
 
     train_loader, val_loader, test_loader,valid_classes, class_counts  = build_dataloader(root_dir, split_ratio=split_ratio, batch_size=batch_size, num_workers=num_workers)
 
@@ -87,18 +89,18 @@ def objective(trial):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # Model: ResNet34 (adjusted for number of classes)
-    num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
-    model_name = 'ResNet34'
-    model = models.resnet34(weights = "IMAGENET1K_V1")
-    model.fc = nn.Linear(model.fc.in_features, num_classes)
-    model = model.to(device)
+    # num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
+    # model_name = 'ResNet34'
+    # model = models.resnet34(weights = "IMAGENET1K_V1")
+    # model.fc = nn.Linear(model.fc.in_features, num_classes)
+    # model = model.to(device)
 
     # Model: EfficientNet
-    # num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
-    # model_name = "efficientnetb0"
-    # model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
-    # model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
-    # model = model.to(device)
+    num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
+    model_name = "efficientnetb0"
+    model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
+    model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    model = model.to(device)
 
     # Define the criterion, optimizer, and scheduler
     if mixup_flag:
@@ -142,7 +144,7 @@ study.optimize(objective_wrapper, n_trials=50, timeout = 3600)                  
 best_params = study.best_params
 
 # Rebuild the param_str for the best model using the best_params
-best_param_str = f"{model_name}_bs_{best_params['batch_size']}_lr_{best_params['lr']}_epoch_{best_params['num_epochs']}_wd_{best_params['weight_decay']}_wlf_{best_params['weight_loss_flag']}"
+best_param_str = f"efficientNet_bs_{best_params['batch_size']}_lr_{best_params['lr']}_epoch_{best_params['num_epochs']}_wd_{best_params['weight_decay']}_wlf_{best_params['weight_loss_flag']}"
 
 # Best model path
 best_model_path = os.path.join('./model_weights', f'{best_param_str}.pth')

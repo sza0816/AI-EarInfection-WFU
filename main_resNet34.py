@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import torch.optim as optim
 from torchvision.transforms import v2
 #%%
-root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
+# root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
 
 # auto selected frames - 4 classes, take care
 root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
@@ -19,12 +19,12 @@ root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_sele
 # root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
 
 split_ratio=(0.70, 0.15)
-batch_size=80
+batch_size=43
 num_workers=1
-lr = 2.5e-05
-weight_decay=0.0017
+lr = 2e-05
+weight_decay=0.00025
 
-num_epochs = 75
+num_epochs = 39
 patience=5             # for early stopping
 tolerence=0.05
 momentum=0.9

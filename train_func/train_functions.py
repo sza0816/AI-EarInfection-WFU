@@ -93,6 +93,7 @@ def train_model(model,\
             if scheduler and phase == 'val':
                 # Adjust the learning rate based on the validation loss
                 scheduler.step(epoch_loss)
+                print(f"Current LR: {scheduler.optimizer.param_groups[0]['lr']:.6f}")          # to replace verbose = True, print current lr
 
         # Check for early stopping condition ***
         if early_stop_counter >= patience:

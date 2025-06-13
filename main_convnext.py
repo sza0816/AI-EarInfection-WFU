@@ -5,7 +5,7 @@ from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
 import torch.nn as nn
-from torch.optim import Adam
+from torch.optim import AdamW, Adam
 import matplotlib.pyplot as plt
 import torch.optim as optim
 from torchvision.transforms import v2
@@ -22,12 +22,12 @@ root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_sele
 
 # hyperparameters inherited from main, adjust
 split_ratio=(0.7, 0.15)
-batch_size=50
+batch_size=32
 num_workers=1
-lr = 2e-05
-weight_decay=0.00028         # 'weight_decay': 0.0016129052139732972
+lr = 1.3e-04
+weight_decay=0.2         # increase weight_decay
 
-num_epochs = 60
+num_epochs = 30
 patience=5             # for early stopping
 tolerence=0.05
 momentum=0.9
@@ -76,6 +76,12 @@ num_classes = len(valid_classes)
 model_name = "convnext"
 model_size = "tiny"
 model = models.get_convnext(size = model_size, weights = "DEFAULT", num_classes = num_classes)
+model.classifier = nn.Sequential(
+    model.classifier[0],           # layerNorm
+    nn.Flatten(1),
+    nn.Dropout(p=0.3),             # add new dropout
+    model.classifier[2]            # Linear
+)
 model = model.to(device)
 
 
@@ -86,15 +92,14 @@ else:
     criterion = nn.CrossEntropyLoss(weight=weights_tensor)         # if no mixup, use cross entropy loss function
 
 # Adam optimizer
-optimizer = Adam(model.parameters(), lr=lr, weight_decay=weight_decay)       
+optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)       
 
 # Define the scheduler (e.g., ReduceLROnPlateau)
 if scheduler_flag:
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, \
                                                     mode='min', \
                                                     factor=factor_schedule, \
-                                                    patience=patience_schedule,\
-                                                    verbose=True)               # print lr change info
+                                                    patience=patience_schedule)               # verbose = T is no longer used
 # adjust learning rate (lr) based on training result
 else:
     scheduler = None

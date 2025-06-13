@@ -21,19 +21,13 @@ root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_sele
 
 
 # hyperparameters inherited from main, adjust
-split_ratio=(0.65, 0.2)
-batch_size=80
+split_ratio=(0.7, 0.15)
+batch_size=50
 num_workers=1
-# lr_1 = 2.45e-04                  # 'lr': 0.00024549149514035127
-# lr_2 = 1e-04
-# lr_3 = 8e-05
-lr = 4.03e-05
-# wd_1 = 0.0016
-# wd_2 = 0.002
-# wd_3 = 0.0018
+lr = 2e-05
 weight_decay=0.00028         # 'weight_decay': 0.0016129052139732972
 
-num_epochs = 80
+num_epochs = 60
 patience=5             # for early stopping
 tolerence=0.05
 momentum=0.9
@@ -77,11 +71,11 @@ else:
 # Use GPU if available, else use CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Model: EfficientNet
-num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
-model_name = "efficientnetb0"
-model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
-model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+# Model: ConvNeXt
+num_classes = len(valid_classes)
+model_name = "convnext"
+model_size = "tiny"
+model = models.get_convnext(size = model_size, weights = "DEFAULT", num_classes = num_classes)
 model = model.to(device)
 
 
@@ -118,12 +112,11 @@ trained_model, train_loss, val_loss, best_acc = train_model(model, \
                                                 NUM_CLASSES = num_classes, param_str = param_str
                                                 )
 
-
 # Plot training & validation loss
 plt.figure()
 plt.plot(train_loss, label='Training Loss')
 plt.plot(val_loss, label='Validation Loss')
-plt.title('EfficientNet Training and Validation Loss')
+plt.title(f'ConvNeXt_{model_size} Training and Validation Loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()

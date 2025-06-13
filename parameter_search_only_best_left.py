@@ -1,7 +1,7 @@
 #%%
 from dataset import build_dataloader
 from models import models
-from train_func import train_model, evaluate_model
+from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
 import torch.nn as nn
@@ -32,8 +32,8 @@ import os
 # mixup_flag = True
 
 # testing if path exists
-print("Running on:", os.uname().nodename)
-print("Can see data?", os.path.exists("/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all"))
+print("\nRunning on:", os.uname().nodename)
+print("Can see data?", os.path.exists("/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all"), "\n")
 
 # problem reasoning: the data folder can only be accessed through certain partition & node, such as ciaq
 
@@ -96,10 +96,17 @@ def objective(trial):
     # model = model.to(device)
 
     # Model: EfficientNet
-    num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
-    model_name = "efficientnetb0"
-    model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
-    model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    # num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
+    # model_name = "efficientnetb0"
+    # model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
+    # model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+    # model = model.to(device)
+
+    # Model: ConvNeXt
+    num_classes = len(valid_classes)
+    model_name = "convnext"
+    model_size = "tiny"
+    model = models.get_convnext(size = model_size, weights = "DEFAULT", num_classes = num_classes)
     model = model.to(device)
 
     # Define the criterion, optimizer, and scheduler

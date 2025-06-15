@@ -5,11 +5,12 @@ from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
 import torch.nn as nn
-from torch.optim import Adam
+from torch.optim import AdamW, Adam
 import matplotlib.pyplot as plt
 import torch.optim as optim
 from torchvision.transforms import v2
 #%%
+
 # root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
 
 # auto selected frames - 4 classes, take care
@@ -18,13 +19,15 @@ root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_sele
 # human selected frames - 4 classes
 # root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
 
-split_ratio=(0.70, 0.15)
-batch_size=43
-num_workers=1
-lr = 2e-05
-weight_decay=0.00025
 
-num_epochs = 39
+# hyperparameters inherited from main, adjust
+split_ratio=(0.7, 0.15)
+batch_size=32
+num_workers=1
+lr = 1.3e-04
+weight_decay=0.2         # increase weight_decay
+
+num_epochs = 30                                           ### use less epochs at first
 patience=5             # for early stopping
 tolerence=0.05
 momentum=0.9
@@ -33,8 +36,9 @@ scheduler_flag = False
 factor_schedule=0.1
 patience_schedule=3
 
-weight_loss_flag = False
-mixup_flag = False
+
+weight_loss_flag = False           # whether to apply class-balanced weighting to the loss function
+mixup_flag = False                 # whether to apply data augmentation
 
 set_seed(42)
 
@@ -43,6 +47,9 @@ train_loader, val_loader, test_loader,valid_classes, class_counts  = build_datal
                                                                                       batch_size=batch_size, \
                                                                                       num_workers=num_workers)
 #%%
+
+
+# for reproductivity & scalability usage, see the last 2 params
 if mixup_flag:
     NUM_CLASSES = len(valid_classes)
     cutmix = v2.CutMix(num_classes=NUM_CLASSES)
@@ -60,44 +67,37 @@ if weight_loss_flag:
 else:
     weights_tensor = None
 
+
+# Use GPU if available, else use CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# print("using CUDA" if torch.cuda.is_available() else "using CPU")
+
+# Model: ViT Base 16
+num_classes = len(valid_classes)
+model_name = "vitbase16"
+model = models.vit_b_16(weights = models.ViT_B_16_Weights.DEFAULT)
+model.heads.head = nn.Linear(model.heads.head.in_features, num_classes)
+model = model.to(device)
 
 
-# Model: ResNet34 (adjusted for number of classes)
-num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
-model_name = 'resnet34'                                # record model name
-model = models.resnet34(weights = "IMAGENET1K_V1")               # load a pretrained model
-model.fc = nn.Linear(model.fc.in_features, num_classes)     # adjust the fully connected layer (fc)
-                                                            # in_feature: feature dim in fc
-# print(f"\nsee fc structure: \n{model.fc}\n")
-model = model.to(device)                                    # move model to CPU
-
-
-# Define the criterion, optimizer, and scheduler
-# criterion, loss function object, tells how wrong the models are
 if mixup_flag:
     criterion = nn.BCEWithLogitsLoss(weight=weights_tensor)        # if mixup, use binary cross entropy with logits loss function
                                                                    # suitable for soft label or multi-label tasks
 else:
     criterion = nn.CrossEntropyLoss(weight=weights_tensor)         # if no mixup, use cross entropy loss function
 
-# print(model.parameters, "\n")
-optimizer = Adam(model.parameters(), lr=lr, weight_decay=weight_decay)       
-# optimizer using optimization method "Adam"
-# other algo includes : optimizer = torch.optim.SGD(model.parameters(), lr, momentum)
+# AdamW optimizer
+optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)       
 
 # Define the scheduler (e.g., ReduceLROnPlateau)
 if scheduler_flag:
     scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, \
                                                     mode='min', \
                                                     factor=factor_schedule, \
-                                                    patience=patience_schedule,\
-                                                    verbose=True)               # print lr change info
+                                                    patience=patience_schedule)               # verbose = T is no longer used
 # adjust learning rate (lr) based on training result
-# automatically lower lr if loss does not decrease
 else:
     scheduler = None
+
 
 param_str = f'{model_name}_bs_{batch_size}_lr_{lr}_epoch_{num_epochs}_wd_{weight_decay}_wlf_{weight_loss_flag}'
 
@@ -111,23 +111,17 @@ trained_model, train_loss, val_loss, best_acc = train_model(model, \
                                                 NUM_CLASSES = num_classes, param_str = param_str
                                                 )
 
-# Plotting training and validation loss
+# Plot training & validation loss
 plt.figure()
 plt.plot(train_loss, label='Training Loss')
 plt.plot(val_loss, label='Validation Loss')
-plt.title('ResNet34 Training and Validation Loss')
+plt.title(f'ViT_Base_16 Training and Validation Loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
 plt.savefig(f"output_{model_name}/T_V_loss_{model_name}.png")  # Save the figure before plt.show(
 plt.show()
 
-# Step 4: Evaluate the model on the test set
+# Evaluate model on the test set
 print("Evaluating on the test set...")
-evaluate_model(trained_model, test_loader, device=device, model_name = model_name)     # add model_name
-
-
-# Step 5: Save the best model
-# torch.save(trained_model.state_dict(), 'best_resnet50_eardrum.pth')
-
-# %%
+evaluate_model(trained_model, test_loader, device=device, model_name = model_name)

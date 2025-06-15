@@ -8,4 +8,4 @@
 
 module load cuda-toolkit/12.2.2  # load necessary modules
 
-srun python main_convnext.py  # run your job
+srun python main_convNeXt.py  # run your job

@@ -74,8 +74,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Model: ConvNeXt
 num_classes = len(valid_classes)
 model_name = "convnext"
-model_size = "tiny"
-model = models.get_convnext(size = model_size, weights = "DEFAULT", num_classes = num_classes)
+model = models.convnext_tiny(weights = models.ConvNeXt_Tiny_Weights.DEFAULT)
+model.classifier[2] = nn.Linear(model.classifier[2].in_features, num_classes)
 model.classifier = nn.Sequential(
     model.classifier[0],           # layerNorm
     nn.Flatten(1),
@@ -91,7 +91,7 @@ if mixup_flag:
 else:
     criterion = nn.CrossEntropyLoss(weight=weights_tensor)         # if no mixup, use cross entropy loss function
 
-# Adam optimizer
+# AdamW optimizer
 optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)       
 
 # Define the scheduler (e.g., ReduceLROnPlateau)

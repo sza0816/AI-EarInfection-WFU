@@ -105,8 +105,9 @@ def objective(trial):
     # Model: ConvNeXt
     num_classes = len(valid_classes)
     model_name = "convnext"
-    model_size = "tiny"
     model = models.get_convnext(size = model_size, weights = "DEFAULT", num_classes = num_classes)
+    model = models.convnext(weights = models.ConvNeXt_Tiny_Weights.DEFAULT)
+    model.classifier[2] = nn.Linear(model.classifier[2].in_features, num_classes)
     model = model.to(device)
 
     # Define the criterion, optimizer, and scheduler

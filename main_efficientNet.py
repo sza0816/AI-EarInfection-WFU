@@ -24,13 +24,7 @@ root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_sele
 split_ratio=(0.65, 0.2)
 batch_size=80
 num_workers=1
-# lr_1 = 2.45e-04                  # 'lr': 0.00024549149514035127
-# lr_2 = 1e-04
-# lr_3 = 8e-05
 lr = 4.03e-05
-# wd_1 = 0.0016
-# wd_2 = 0.002
-# wd_3 = 0.0018
 weight_decay=0.00028         # 'weight_decay': 0.0016129052139732972
 
 num_epochs = 80

@@ -71,17 +71,11 @@ else:
 # Use GPU if available, else use CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Model: ConvNeXt_Tiny
+# Model: Swin Transformer Tiny
 num_classes = len(valid_classes)
-model_name = "convnext"
-model = models.convnext_tiny(weights = models.ConvNeXt_Tiny_Weights.DEFAULT)
-model.classifier[2] = nn.Linear(model.classifier[2].in_features, num_classes)
-model.classifier = nn.Sequential(        # optional
-    model.classifier[0],           # layerNorm
-    nn.Flatten(1),
-    nn.Dropout(p=0.3),             # add new dropout
-    model.classifier[2]            # Linear
-)
+model_name = "swint"
+model = models.swin_t(weights = models.Swin_T_Weights.DEFAULT)
+model.head = nn.Linear(model.head.in_features, num_classes)
 model = model.to(device)
 
 
@@ -121,7 +115,7 @@ trained_model, train_loss, val_loss, best_acc = train_model(model, \
 plt.figure()
 plt.plot(train_loss, label='Training Loss')
 plt.plot(val_loss, label='Validation Loss')
-plt.title(f'ConvNeXt_Tiny Training and Validation Loss')
+plt.title(f'Swin_Transformer_Tiny Training and Validation Loss')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()

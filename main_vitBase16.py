@@ -1,6 +1,7 @@
 #%%
 from dataset import build_dataloader
-from models import models
+# from models import models
+from models.my_models import get_model
 from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
@@ -74,8 +75,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Model: ViT Base 16
 num_classes = len(valid_classes)
 model_name = "vitbase16"
-model = models.vit_b_16(weights = models.ViT_B_16_Weights.DEFAULT)
-model.heads.head = nn.Linear(model.heads.head.in_features, num_classes)
+model = get_model(model_name, num_classes, 'DEFAULT')
+# model = models.vit_b_16(weights = models.ViT_B_16_Weights.DEFAULT)
+# model.heads.head = nn.Linear(model.heads.head.in_features, num_classes)
 model = model.to(device)
 
 

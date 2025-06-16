@@ -1,6 +1,7 @@
 #%%
 from dataset import build_dataloader
-from models import models
+# from models import models
+from models.my_models import get_model
 from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
@@ -74,8 +75,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Model: EfficientNet
 num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
 model_name = "efficientnetb0"
-model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
-model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
+model = get_model(model_name, num_classes, 'DEFAULT')
+# model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
+# model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
 model = model.to(device)
 
 

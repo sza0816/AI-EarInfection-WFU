@@ -1,6 +1,7 @@
 #%%
 from dataset import build_dataloader
-from models import models
+# from models import models
+from models.my_models import get_model
 from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
@@ -67,8 +68,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Model: ResNet34 (adjusted for number of classes)
 num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
 model_name = 'resnet34'                                # record model name
-model = models.resnet34(weights = "IMAGENET1K_V1")               # load a pretrained model
-model.fc = nn.Linear(model.fc.in_features, num_classes)     # adjust the fully connected layer (fc)
+model = get_model(model_name, num_classes, 'DEFAULT')
+# model = models.resnet34(weights = "IMAGENET1K_V1")               # load a pretrained model
+# model.fc = nn.Linear(model.fc.in_features, num_classes)     # adjust the fully connected layer (fc)
                                                             # in_feature: feature dim in fc
 # print(f"\nsee fc structure: \n{model.fc}\n")
 model = model.to(device)                                    # move model to CPU

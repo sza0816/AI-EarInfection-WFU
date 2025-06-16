@@ -1,6 +1,7 @@
 #%%
 from dataset import build_dataloader
-from models import models
+# from models import models
+from models.my_models import get_model
 from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
@@ -9,7 +10,6 @@ from torch.optim import AdamW, Adam
 import matplotlib.pyplot as plt
 import torch.optim as optim
 from torchvision.transforms import v2
-import timm
 #%%
 
 # root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
@@ -25,10 +25,10 @@ root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_sele
 split_ratio=(0.7, 0.15)
 batch_size=32
 num_workers=1
-lr = 1e-05
-weight_decay=0.016         # increase weight_decay
+lr = 1.3e-04
+weight_decay=0.2         # increase weight_decay
 
-num_epochs = 30                                           ### use less epochs at first
+num_epochs = 30
 patience=5             # for early stopping
 tolerence=0.05
 momentum=0.9
@@ -72,11 +72,10 @@ else:
 # Use GPU if available, else use CPU
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Model: Efficient ViT B0
+# Model: efficient vit b0
 num_classes = len(valid_classes)
 model_name = "efficientvitb0"
-model = timm.create_model('efficientvit_b0', pretrained = True)
-model.head.classifier[4] = nn.Linear(model.head.classifier[4].in_features, num_classes)
+model = get_model(model_name, num_classes, 'DEFAULT')
 model = model.to(device)
 
 
@@ -86,8 +85,8 @@ if mixup_flag:
 else:
     criterion = nn.CrossEntropyLoss(weight=weights_tensor)         # if no mixup, use cross entropy loss function
 
-# AdamW optimizer
-optimizer = AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)       
+# Adam optimizer
+optimizer = Adam(model.parameters(), lr=lr, weight_decay=weight_decay)       
 
 # Define the scheduler (e.g., ReduceLROnPlateau)
 if scheduler_flag:

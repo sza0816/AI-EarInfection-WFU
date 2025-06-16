@@ -1,6 +1,7 @@
 #%%
 from dataset import build_dataloader
-from models import models
+# from models import models
+from models.my_models import get_model
 from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
@@ -74,14 +75,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # Model: ConvNeXt_Tiny
 num_classes = len(valid_classes)
 model_name = "convnext"
-model = models.convnext_tiny(weights = models.ConvNeXt_Tiny_Weights.DEFAULT)
-model.classifier[2] = nn.Linear(model.classifier[2].in_features, num_classes)
-model.classifier = nn.Sequential(        # optional
-    model.classifier[0],           # layerNorm
-    nn.Flatten(1),
-    nn.Dropout(p=0.3),             # add new dropout
-    model.classifier[2]            # Linear
-)
+model = get_model(model_name, num_classes, 'DEFAULT')
 model = model.to(device)
 
 

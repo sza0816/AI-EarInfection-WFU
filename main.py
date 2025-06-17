@@ -23,7 +23,7 @@ args = parser.parse_args()
 model_name = args.model
 keyframe_mode = args.keyframe
 
-print(f"Training {model_name} on {keyframe_mode}_selected frames")
+print(f"Training {model_name} on {keyframe_mode}_selected frames\n")
 
 
 # root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
@@ -130,7 +130,6 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Initialize model
 num_classes = len(valid_classes)
-print("testing\n")
 model = get_model(model_name, num_classes, 'DEFAULT')
 model = model.to(device)
 
@@ -154,7 +153,7 @@ else:
     scheduler = None
 
 param_str = f'{model_name}_bs_{batch_size}_lr_{lr}_epoch_{num_epochs}_wd_{weight_decay}_wlf_{weight_loss_flag}'
-print(f"{param_str}\n")
+# print(f"{param_str}\n")
 
 # Train the model
 trained_model, train_loss, val_loss, best_acc = train_model(model, \

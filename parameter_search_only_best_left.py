@@ -38,12 +38,11 @@ print("Can see data?", os.path.exists("/isilon/datalake/gurcan_rsch/scratch/otos
 # problem reasoning: the data folder can only be accessed through certain partition & node, such as ciaq
 
 # -----------------------------------------testing root_dir-----------------------------------------------------
- # auto selected frames - 4 classes, take care
-root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
-
+ # auto selected frames - 4 classes
+# root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
 
 # human selected frames - 4 classes
-# root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
+root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
 
 # ---------------------------------------------------------------------------------------------------------------
 def objective(trial):
@@ -88,26 +87,9 @@ def objective(trial):
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # Model: ResNet34 (adjusted for number of classes)
-    # num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
-    # model_name = 'ResNet34'
-    # model = models.resnet34(weights = "IMAGENET1K_V1")
-    # model.fc = nn.Linear(model.fc.in_features, num_classes)
-    # model = model.to(device)
-
-    # Model: EfficientNet
-    # num_classes = len(valid_classes)  # Assuming valid_classes are defined as in the previous example
-    # model_name = "efficientnetb0"
-    # model = models.efficientnet_b0(weights = "IMAGENET1K_V1")
-    # model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
-    # model = model.to(device)
-
-    # Model: ConvNeXt
     num_classes = len(valid_classes)
-    model_name = "convnext"
-    model = models.get_convnext(size = model_size, weights = "DEFAULT", num_classes = num_classes)
-    model = models.convnext(weights = models.ConvNeXt_Tiny_Weights.DEFAULT)
-    model.classifier[2] = nn.Linear(model.classifier[2].in_features, num_classes)
+    model_name = "convnext"                                  ### change model name here ###
+    model = get_model(model_name, num_classes, 'DEFAULT')
     model = model.to(device)
 
     # Define the criterion, optimizer, and scheduler

@@ -129,8 +129,9 @@ def save_best_model(param_str, model, best_model_wts):
     return model
 
 # Step 2: Define the evaluation function
-# added a param: model_name
-def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
+# added param: model_name
+# added param: keyframe_mode
+def evaluate_model(model, dataloader, device='cuda', model_name="missing", mode = "missing"):
     model.eval()
     all_labels = []
     all_preds = []
@@ -193,7 +194,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.legend(loc = "lower right")
     plt.grid(True)
     # save plot to png file
-    plt.savefig(f"output_{model_name}/ROC_EachClass_{model_name}.png")             # important: the model_name has to match the name of the output folder
+    plt.savefig(f"output_{model_name}/{mode}/ROC_EachClass_{model_name}.png")             # important: the model_name has to match the name of the output folder
     plt.show()
 
 
@@ -209,7 +210,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.title(f"Micro-Avged ROC Curve for {model_name}")
     plt.legend(loc = "lower right")
     plt.grid(True)
-    plt.savefig(f"output_{model_name}/ROC_MicroAvg_{model_name}.png")
+    plt.savefig(f"output_{model_name}/{mode}/ROC_MicroAvg_{model_name}.png")
     plt.show()
 
     # ------------------------------------------plot macro-avg roc curve----------------------------------------------
@@ -218,7 +219,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     tpr_dict = {} 
     roc_auc_dict = {} 
 
-    for i in range(n_classes):                                                    # maybe combine this part with the previous ?
+    for i in range(n_classes):
         fpr_dict[i], tpr_dict[i], _ = roc_curve(y_true_bin[:, i], all_probs[:, i])  
         roc_auc_dict[i] = auc(fpr_dict[i], tpr_dict[i]) 
 
@@ -239,13 +240,10 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing"):
     plt.title(f"Macro-Averaged ROC Curve for {model_name}") 
     plt.legend(loc="lower right") 
     plt.grid(True) 
-    plt.savefig(f"output_{model_name}/ROC_MacroAvg_{model_name}.png")
+    plt.savefig(f"output_{model_name}/{mode}/ROC_MacroAvg_{model_name}.png")
     plt.show()
 
-
-    # return
     return acc, AUC, precision, recall, f1, cm
-    # return roc fpr, tpr ?
 
 # set seed, prevent random accuracy
 def set_seed(seed = 42):

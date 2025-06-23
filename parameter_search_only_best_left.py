@@ -1,6 +1,6 @@
 #%%
 from dataset import build_dataloader
-from models import models
+from models.my_models import get_model
 from train_func import train_model, evaluate_model, set_seed
 from utils import get_valid_classes
 import torch
@@ -38,11 +38,13 @@ print("Can see data?", os.path.exists("/isilon/datalake/gurcan_rsch/scratch/otos
 # problem reasoning: the data folder can only be accessed through certain partition & node, such as ciaq
 
 # -----------------------------------------testing root_dir-----------------------------------------------------
- # auto selected frames - 4 classes
-# root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
+# auto selected frames - 4 classes
+root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
 
 # human selected frames - 4 classes
-root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
+# root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
+
+# root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
 
 # ---------------------------------------------------------------------------------------------------------------
 def objective(trial):
@@ -59,8 +61,6 @@ def objective(trial):
     weight_decay = trial.suggest_loguniform('weight_decay', 1e-4,5e-1)
     weight_loss_flag = trial.suggest_categorical('weight_loss_flag', [True, False])
     mixup_flag = trial.suggest_categorical('mixup_flag', [True, False])
-
-    # root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
 
     # print("Trial running with root_dir:", root_dir)      # debug
     # print("Exists?", os.path.exists(root_dir))
@@ -88,7 +88,7 @@ def objective(trial):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     num_classes = len(valid_classes)
-    model_name = "convnext"                                  ### change model name here ###
+    model_name = "efficientnetb0"                                                       ### change model name here ###
     model = get_model(model_name, num_classes, 'DEFAULT')
     model = model.to(device)
 
@@ -128,7 +128,7 @@ def objective_wrapper(trial):
 study = optuna.create_study(direction='maximize')
 
 ### testing ###
-study.optimize(objective_wrapper, n_trials=50, timeout = 3600)                    # to prevent infinite running
+study.optimize(objective_wrapper, n_trials=200, timeout = 9000)                    # to prevent infinite running
 
 # Get the best parameters
 best_params = study.best_params

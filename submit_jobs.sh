@@ -5,7 +5,7 @@ declare -a KEYFRAMES=("auto" "human")
 
 # 2 min is not enough
 
-DELAY=240   # test 4 min delay 
+DELAY=600   # 10 min delay 
 
 for model in "${MODELS[@]}"; do 
   for keyframe in "${KEYFRAMES[@]}"; do 
@@ -20,3 +20,5 @@ done
 echo "✅ All jobs submitted with delays." 
 
 # bash submit_jobs.sh
+# beware there is still a chance of crashing if the delay period is not long enough 
+# to run single model, use: sbatch job.slurm <model_name> <data_frame>

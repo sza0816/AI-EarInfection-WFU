@@ -24,7 +24,6 @@ def get_model(name, num_classes = 4, weights = 'DEFAULT'):
         model = md.vit_b_16(weights = w)
         model.heads.head = nn.Linear(model.heads.head.in_features, num_classes)
     elif name == "efficientvitb0":
-        # import timm
         model = timm.create_model('efficientvit_b0', pretrained = (weights == 'DEFAULT'))
         model.head.classifier[4] = nn.Linear(model.head.classifier[4].in_features, num_classes)
     else: 

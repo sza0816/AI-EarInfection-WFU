@@ -33,53 +33,38 @@ if keyframe_mode == 'auto':
 elif keyframe_mode == 'human':
     root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
 
+# in need: distinguish params between human & auto
+# key hyperparameters to tune               # currently using human_selected, 4 classes
 
-# key hyperparameters to tune
 hyperparams = {
-    'resnet34': {
-        'batch_size': 43, 
-        'lr': 2e-05, 
-        'num_epochs': 39, 
-        'weight_decay': 0.00025, 
-        'weight_loss_flag': False, 
-        'mixup_flag': False},
+    'resnet34':{
+        'human':{'batch_size': 49, 'lr': 4.18e-04, 'num_epochs': 45, 'weight_decay': 0.00285, 'weight_loss_flag': False, 'mixup_flag': False}, # 
+        'auto':{'batch_size': 47, 'lr': 4.5e-04, 'num_epochs': 98, 'weight_decay': 0.068, 'weight_loss_flag': False, 'mixup_flag': False} # 
+    },
     'efficientnetb0':{
-        'batch_size': 80, 
-        'lr': 4e-05, 
-        'num_epochs': 60, 
-        'weight_decay': 0.00028, 
-        'weight_loss_flag': False, 
-        'mixup_flag': False},
+        'human':{'batch_size': 97, 'lr': 6e-04, 'num_epochs': 73, 'weight_decay': 0.00134, 'weight_loss_flag': True, 'mixup_flag': True},  # 
+        'auto':{'batch_size': 97, 'lr': 5.1e-04, 'num_epochs': 35, 'weight_decay': 0.002, 'weight_loss_flag': True, 'mixup_flag': True} # 
+    },
     'convnext':{
-        'batch_size': 32, 
-        'lr': 1.3e-04, 
-        'num_epochs': 30, 
-        'weight_decay': 0.2, 
-        'weight_loss_flag': False, 
-        'mixup_flag': False},
+        'human':{'batch_size': 37, 'lr': 5e-05, 'num_epochs': 100, 'weight_decay': 0.0001, 'weight_loss_flag': False, 'mixup_flag': True}, # 
+        'auto':{'batch_size': 9, 'lr': 3.7e-05, 'num_epochs': 82, 'weight_decay': 0.00192, 'weight_loss_flag': False, 'mixup_flag': False} # 
+    },
     'swint':{
-        'batch_size': 32, 
-        'lr': 1e-04, 
-        'num_epochs': 30, 
-        'weight_decay': 0.2, 
-        'weight_loss_flag': False, 
-        'mixup_flag': False},
+        'human':{'batch_size': 58, 'lr': 2e-05, 'num_epochs': 74, 'weight_decay': 0.00014, 'weight_loss_flag': False, 'mixup_flag': True}, #
+        'auto':{'batch_size': 21, 'lr': 2.1e-04, 'num_epochs': 79, 'weight_decay': 0.000186, 'weight_loss_flag': True, 'mixup_flag': False} # 
+    },
     'vitbase16':{
-        'batch_size': 32, 
-        'lr': 1e-04, 
-        'num_epochs': 30, 
-        'weight_decay': 0.2, 
-        'weight_loss_flag': False, 
-        'mixup_flag': False},
+        'human':{'batch_size': 60, 'lr': 6.8e-06, 'num_epochs': 78, 'weight_decay': 0.0054, 'weight_loss_flag': True, 'mixup_flag': True}, # 
+        'auto':{'batch_size': 69, 'lr': 6e-05, 'num_epochs': 34, 'weight_decay': 0.0855, 'weight_loss_flag': True, 'mixup_flag': True} # 
+    }, 
     'efficientvitb0':{
-        'batch_size': 32, 
-        'lr': 1e-04, 
-        'num_epochs': 30, 
-        'weight_decay': 0.2, 
-        'weight_loss_flag': False, 
-        'mixup_flag': False}
+        'human':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 99, 'weight_decay': 0.0166, 'weight_loss_flag': False, 'mixup_flag': False}, # 
+        'auto':{'batch_size': 100, 'lr': 5e-05, 'num_epochs': 100, 'weight_decay': 0.000135, 'weight_loss_flag': True, 'mixup_flag': True} # 
+    }
 }
-params = hyperparams[model_name]
+
+params = hyperparams[model_name][keyframe_mode]
+
 batch_size = params['batch_size']
 lr = params['lr']
 num_epochs = params['num_epochs']

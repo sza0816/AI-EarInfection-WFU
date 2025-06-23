@@ -151,9 +151,9 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing", mode 
     # Calculate metrics
     acc = accuracy_score(all_labels, all_preds)
     AUC = roc_auc_score(all_labels, all_probs, multi_class='ovr')          # AUC, it is for multiclass, so class_num must > 2
-    precision = precision_score(all_labels, all_preds, average='macro')
-    recall = recall_score(all_labels, all_preds, average='macro')
-    f1 = f1_score(all_labels, all_preds, average='macro')
+    precision = precision_score(all_labels, all_preds, average='macro', zero_division = 0)
+    recall = recall_score(all_labels, all_preds, average='macro', zero_division = 0)
+    f1 = f1_score(all_labels, all_preds, average='macro', zero_division = 0)
 
     # all_labels = y_true
     # all_preds = y_prediced
@@ -169,7 +169,7 @@ def evaluate_model(model, dataloader, device='cuda', model_name="missing", mode 
     print(f"Recall: {recall:.4f}")
     print(f"F1-score: {f1:.4f}")
     print(f"\nConfusion Matrix:\n {cm}")              # print cm here
-    print("\nClassification Report:\n", classification_report(all_labels, all_preds))
+    print("\nClassification Report:\n", classification_report(all_labels, all_preds, zero_division = 0))
 
 
     ### ROC curves ###

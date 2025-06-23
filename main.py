@@ -43,7 +43,8 @@ hyperparams = {
     },
     'efficientnetb0':{
         'human':{'batch_size': 97, 'lr': 6e-04, 'num_epochs': 73, 'weight_decay': 0.00134, 'weight_loss_flag': True, 'mixup_flag': True},  # 
-        'auto':{'batch_size': 97, 'lr': 5.1e-04, 'num_epochs': 35, 'weight_decay': 0.002, 'weight_loss_flag': True, 'mixup_flag': True} # 
+        'auto':{'batch_size': 97, 'lr': 5.1e-04, 'num_epochs': 35, 'weight_decay': 0.002, 'weight_loss_flag': True, 'mixup_flag': True} # 1st tune
+        # 'auto':{'batch_size':52, 'lr': 0.00327, 'num_epochs': 65, 'weight_decay': 0.0178, 'weight_loss_flag': True, 'mixup_flag': False} # 2nd tune
     },
     'convnext':{
         'human':{'batch_size': 37, 'lr': 5e-05, 'num_epochs': 100, 'weight_decay': 0.0001, 'weight_loss_flag': False, 'mixup_flag': True}, # 

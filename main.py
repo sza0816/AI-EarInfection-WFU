@@ -39,28 +39,55 @@ elif keyframe_mode == 'human':
 hyperparams = {
     'resnet34':{
         'human':{'batch_size': 49, 'lr': 4.18e-04, 'num_epochs': 45, 'weight_decay': 0.00285, 'weight_loss_flag': False, 'mixup_flag': False}, # 
-        'auto':{'batch_size': 47, 'lr': 4.5e-04, 'num_epochs': 98, 'weight_decay': 0.068, 'weight_loss_flag': False, 'mixup_flag': False} # 
+        'auto':{'batch_size': 47, 'lr': 4.5e-04, 'num_epochs': 98, 'weight_decay': 0.068, 'weight_loss_flag': False, 'mixup_flag': False}, # 
+        'seed': 42
     },
     'efficientnetb0':{
-        'human':{'batch_size': 97, 'lr': 6e-04, 'num_epochs': 73, 'weight_decay': 0.00134, 'weight_loss_flag': True, 'mixup_flag': True},  # 
-        'auto':{'batch_size': 97, 'lr': 5.1e-04, 'num_epochs': 35, 'weight_decay': 0.002, 'weight_loss_flag': True, 'mixup_flag': True} # 1st tune
-        # 'auto':{'batch_size':52, 'lr': 0.00327, 'num_epochs': 65, 'weight_decay': 0.0178, 'weight_loss_flag': True, 'mixup_flag': False} # 2nd tune
+        # 'human':{'batch_size': 97, 'lr': 6e-04, 'num_epochs': 73, 'weight_decay': 0.00134, 'weight_loss_flag': True, 'mixup_flag': True},  # 
+        # 'human':{'batch_size': 79, 'lr': 0.00042, 'num_epochs': 78, 'weight_decay': 0.0016, 'weight_loss_flag': True, 'mixup_flag': True},  # 200 tune, 0.6957
+        # 'human':{'batch_size': 82, 'lr': 0.0011, 'num_epochs': 97, 'weight_decay': 0.0262, 'weight_loss_flag': True, 'mixup_flag': False},  # 200 tune, 0.6087
+        # 'human':{'batch_size': 79, 'lr': 0.0006, 'num_epochs': 78, 'weight_decay': 0.0014, 'weight_loss_flag': True, 'mixup_flag': True},  # 0.6739
+        'human':{'batch_size': 79, 'lr': 0.0007, 'num_epochs': 78, 'weight_decay': 0.0014, 'weight_loss_flag': True, 'mixup_flag': True},  # 0.7826
+
+        # 'auto':{'batch_size': 114, 'lr': 0.0012, 'num_epochs': 93, 'weight_decay': 0.00088, 'weight_loss_flag': True, 'mixup_flag': True}, # 200 tune, 0.6087
+        # 'auto':{'batch_size': 102, 'lr': 0.00103, 'num_epochs': 95, 'weight_decay': 0.0013, 'weight_loss_flag': True, 'mixup_flag': True}, # 200 tune, 0.74
+        'auto':{'batch_size': 102, 'lr': 0.00103, 'num_epochs': 95, 'weight_decay': 0.0011, 'weight_loss_flag': True, 'mixup_flag': True}, # 0.74
+
+        'seed': 123
+
     },
     'convnext':{
         'human':{'batch_size': 37, 'lr': 5e-05, 'num_epochs': 100, 'weight_decay': 0.0001, 'weight_loss_flag': False, 'mixup_flag': True}, # 
-        'auto':{'batch_size': 9, 'lr': 3.7e-05, 'num_epochs': 82, 'weight_decay': 0.00192, 'weight_loss_flag': False, 'mixup_flag': False} # 
+        'auto':{'batch_size': 9, 'lr': 3.7e-05, 'num_epochs': 82, 'weight_decay': 0.00192, 'weight_loss_flag': False, 'mixup_flag': False}, # 
+        'seed': 42
     },
     'swint':{
         'human':{'batch_size': 58, 'lr': 2e-05, 'num_epochs': 74, 'weight_decay': 0.00014, 'weight_loss_flag': False, 'mixup_flag': True}, #
-        'auto':{'batch_size': 21, 'lr': 2.1e-04, 'num_epochs': 79, 'weight_decay': 0.000186, 'weight_loss_flag': True, 'mixup_flag': False} # 
+        'auto':{'batch_size': 21, 'lr': 2.1e-04, 'num_epochs': 79, 'weight_decay': 0.000186, 'weight_loss_flag': True, 'mixup_flag': False}, # 
+        'seed': 42
     },
     'vitbase16':{
-        'human':{'batch_size': 60, 'lr': 6.8e-06, 'num_epochs': 78, 'weight_decay': 0.0054, 'weight_loss_flag': True, 'mixup_flag': True}, # 
-        'auto':{'batch_size': 69, 'lr': 6e-05, 'num_epochs': 34, 'weight_decay': 0.0855, 'weight_loss_flag': True, 'mixup_flag': True} # 
+        # 'human':{'batch_size': 60, 'lr': 2e-05, 'num_epochs': 60, 'weight_decay': 0.01, 'weight_loss_flag': False, 'mixup_flag': False}, # 1. increase lr/wd, flags false, 0.6522
+        'human':{'batch_size': 60, 'lr': 3e-05, 'num_epochs': 50, 'weight_decay': 0.01, 'weight_loss_flag': False, 'mixup_flag': False}, # 2. increase lr, decrease epoch, 0.6522
+        # 'human':{'batch_size': 60, 'lr': 3e-05, 'num_epochs': 50, 'weight_decay': 0.01, 'weight_loss_flag': True, 'mixup_flag': False}, # 3. turn on weight loss flag, 0.6087
+        # 'human':{'batch_size': 60, 'lr': 3e-05, 'num_epochs': 50, 'weight_decay': 0.01, 'weight_loss_flag': False, 'mixup_flag': True}, # 4. turn on mixup, 0.6087
+
+        'auto':{'batch_size': 69, 'lr': 6e-05, 'num_epochs': 34, 'weight_decay': 0.0855, 'weight_loss_flag': True, 'mixup_flag': True}, # **0.6739**
+        'seed': 42
     }, 
     'efficientvitb0':{
-        'human':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 99, 'weight_decay': 0.0166, 'weight_loss_flag': False, 'mixup_flag': False}, # 
-        'auto':{'batch_size': 100, 'lr': 5e-05, 'num_epochs': 100, 'weight_decay': 0.000135, 'weight_loss_flag': True, 'mixup_flag': True} # 
+        # 'human':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 99, 'weight_decay': 0.0166, 'weight_loss_flag': False, 'mixup_flag': False}, # original **0.6739**
+        # 'human':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 99, 'weight_decay': 0.012, 'weight_loss_flag': False, 'mixup_flag': False}, # decrease wd, 0.6739
+        # 'human':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 120, 'weight_decay': 0.0166, 'weight_loss_flag': False, 'mixup_flag': False}, # increase epoch, 0.6522
+        'human':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 70, 'weight_decay': 0.0166, 'weight_loss_flag': False, 'mixup_flag': False}, # decrease epoch, 0.6739
+        # 'human':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 70, 'weight_decay': 0.012, 'weight_loss_flag': False, 'mixup_flag': False}, # decrease wd + epoch, 0.6522
+
+        # 'auto':{'batch_size': 100, 'lr': 5e-05, 'num_epochs': 100, 'weight_decay': 0.000135, 'weight_loss_flag': True, 'mixup_flag': True} # original **0.6087**
+        'auto':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 99, 'weight_decay': 0.0166, 'weight_loss_flag': False, 'mixup_flag': False}, # 1. try same params, 0.6522
+        # 'auto':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 99, 'weight_decay': 0.01, 'weight_loss_flag': False, 'mixup_flag': False}, # 2. decrease wd, 0.6304
+        # 'auto':{'batch_size': 80, 'lr': 2e-05, 'num_epochs': 99, 'weight_decay': 0.0166, 'weight_loss_flag': False, 'mixup_flag': False}, # 3. increase lr, 0.6304
+        # 'auto':{'batch_size': 80, 'lr': 1.65e-05, 'num_epochs': 99, 'weight_decay': 0.0166, 'weight_loss_flag': True, 'mixup_flag': False}, # 4. wlf = T, 0.5870
+        'seed': 42
     }
 }
 
@@ -85,7 +112,8 @@ scheduler_flag = False
 factor_schedule=0.1
 patience_schedule=3
 
-set_seed(42)
+seed = hyperparams[model_name]['seed']
+set_seed(seed)
 
 # split data for modeling
 train_loader, val_loader, test_loader,valid_classes, class_counts  = build_dataloader(root_dir, \

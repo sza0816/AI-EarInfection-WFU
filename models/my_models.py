@@ -10,6 +10,7 @@ def get_model(name, num_classes = 4, weights = 'DEFAULT'):
     elif name == "efficientnetb0":
         w = "IMAGENET1K_V1" if weights == 'DEFAULT' else None
         model = md.efficientnet_b0(weights = w)
+        model.classifier[0].p = 0.3                    # 8. add drop_rate = 0.4/0.3
         model.classifier[1] = nn.Linear(model.classifier[1].in_features, num_classes)
     elif name == "convnext":
         w = md.ConvNeXt_Tiny_Weights.DEFAULT if weights == 'DEFAULT' else None

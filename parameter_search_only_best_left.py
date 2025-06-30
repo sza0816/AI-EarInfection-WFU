@@ -39,10 +39,10 @@ print("Can see data?", os.path.exists("/isilon/datalake/gurcan_rsch/scratch/otos
 
 # -----------------------------------------testing root_dir-----------------------------------------------------
 # auto selected frames - 4 classes
-root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
+# root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/Auto_selected_new_all'
 
 # human selected frames - 4 classes
-# root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
+root_dir = '/isilon/datalake/gurcan_rsch/scratch/otoscope/Hao/compare_frame_selection/data/human_selected_new_all'
 
 # root_dir = '/isilon/datalake/cialab/scratch/cialab/Hao/work_record/Project4_ear/project_inherit/Data/2019_2021/All_Selected_Still_Frames/All_Selected_Still_Frames'
 
@@ -64,7 +64,7 @@ def objective(trial):
 
     # print("Trial running with root_dir:", root_dir)      # debug
     # print("Exists?", os.path.exists(root_dir))
-    set_seed(42)
+    set_seed(123)                                              # change set seed
 
     train_loader, val_loader, test_loader,valid_classes, class_counts  = build_dataloader(root_dir, split_ratio=split_ratio, batch_size=batch_size, num_workers=num_workers)
 
@@ -91,6 +91,7 @@ def objective(trial):
     model_name = "efficientnetb0"                                                       ### change model name here ###
     model = get_model(model_name, num_classes, 'DEFAULT')
     model = model.to(device)
+    # efficientnetb0 human seed=123
 
     # Define the criterion, optimizer, and scheduler
     if mixup_flag:
@@ -128,7 +129,7 @@ def objective_wrapper(trial):
 study = optuna.create_study(direction='maximize')
 
 ### testing ###
-study.optimize(objective_wrapper, n_trials=200, timeout = 9000)                    # to prevent infinite running
+study.optimize(objective_wrapper, n_trials=200)                    # to prevent infinite running
 
 # Get the best parameters
 best_params = study.best_params

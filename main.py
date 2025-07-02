@@ -52,6 +52,10 @@ hyperparams = {
         # 'auto':{'batch_size': 114, 'lr': 0.0012, 'num_epochs': 93, 'weight_decay': 0.00088, 'weight_loss_flag': True, 'mixup_flag': True}, # 200 tune, 0.6087
         # 'auto':{'batch_size': 102, 'lr': 0.00103, 'num_epochs': 95, 'weight_decay': 0.0013, 'weight_loss_flag': True, 'mixup_flag': True}, # 200 tune, 0.74
         'auto':{'batch_size': 102, 'lr': 0.00103, 'num_epochs': 95, 'weight_decay': 0.0011, 'weight_loss_flag': True, 'mixup_flag': True}, # 0.74
+        # 'auto':{'batch_size': 102, 'lr': 0.00095, 'num_epochs': 95, 'weight_decay': 0.0012, 'weight_loss_flag': True, 'mixup_flag': True}, # 0.70
+        # 'auto':{'batch_size': 96, 'lr': 0.00103, 'num_epochs': 95, 'weight_decay': 0.0013, 'weight_loss_flag': True, 'mixup_flag': True}, # 0.7391, lower auc
+
+
 
         'seed': 123
 

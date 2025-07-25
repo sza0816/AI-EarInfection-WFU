@@ -57,14 +57,14 @@ output_<model_name>/
   ├── auto/ or human/ # Keyframe mode
   │ ├── output.log                            # Logs all epochs and prints final evaluation metrics
   │ ├── ROC_EachClass_<model_name>.png        # ROC curves per class
-  │ ├── ROC_MacroAvg_<model_name>.png         # Macro-average OC
+  │ ├── ROC_MacroAvg_<model_name>.png         # Macro-average ROC
   │ ├── ROC_MicroAvg_<model_name>.png         # Micro-average ROC 
   │ └── T_V_loss_<model_name>.png             # Training vs. validation loss curve 
 ```
 For hyperparameter tuning: 
 ```
 output_param_search/
-  └── job_tune_parameter_output.log # Logs all trials and best hyperparameters (up to 200 trials)
+  └── job_tune_parameter_output.log           # Logs all trials and best hyperparameters (up to 200 trials)
 ```
 ## Evaluation
 | Model           | Auto Selected Frames                                                                 | Human Selected Frames                                                                | 

@@ -3,7 +3,7 @@
 </h1>
 
 ## Description:
-This is a project implementing six machine learning models and comparing classification performances between two sets of image datasets, which is part of a bigger AI developing research project. The image datasets comes from both AI and human frame selection of clinical otoscope videos (private to the company, not included) on human eardrums, each ideally representing the single most diagnostically informative frame of the few second videos. The purpose of this project is to validate the performance of the frame selection algorithm of the developing AI by comparing classification results of auto-selected frames with results of human-selected frames of same set of videos.
+This project implements six machine learning models to compare classification performance between two image datasets, as part of a broader AI development initiative. The datasets consist of frames selected from clinical otoscope videos (not included due to privacy constraints), where each image represents the most diagnostically informative frame of a short video. One set is selected automatically by the AI, while the other is manually selected by clinicians. The goal is to evaluate the effectiveness of the AI’s frame selection algorithm by comparing its classification performance against that of human-selected frames on the same set of videos. 
 
 ## Requirements: 
 - Python >= 3.9

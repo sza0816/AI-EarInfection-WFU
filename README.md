@@ -69,13 +69,26 @@ output_param_search/
 ## Evaluation
 | Model           | Auto Selected Frames                                                                 | Human Selected Frames                                                                | 
 |-----------------|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------| 
-| ResNet34        | <img src="confusion_matrices/resnet34_auto.png" width="200"><img src="output_resnet34/auto/ROC_MacroAvg_resnet34.png" width="200"> | <img src="confusion_matrices/resnet34_human.png" width="200"><img src="output_resnet34/human/ROC_MacroAvg_resnet34.png" width="200"> | 
-| ViT-Base-16     |   <img src="confusion_matrices/vitbase16_auto.png" width="200"><img src="output_vitbase16/auto/ROC_MacroAvg_vitbase16.png" width="200">   |   <img src="confusion_matrices/vitbase16_human.png" width="200"><img src="output_vitbase16/human/ROC_MacroAvg_vitbase16.png" width="200">   | 
-| EfficientNetB0  | <img src="confusion_matrices/efficientnetb0_auto.png" width="200"><img src="output_efficientnetb0/auto/ROC_MacroAvg_efficientnetb0.png" width="200"> | <img src="confusion_matrices/efficientnetb0_human.png" width="200"><img src="output_efficientnetb0/human/ROC_MacroAvg_efficientnetb0.png" width="200"> | 
-| EfficientViT-B0 | <img src="confusion_matrices/efficientvitb0_auto.png" width="200"><img src="output_efficientvitb0/auto/ROC_MacroAvg_efficientvitb0.png" width="200"> | <img src="confusion_matrices/efficientvitb0_human.png" width="200"><img src="output_efficientvitb0/human/ROC_MacroAvg_efficientvitb0.png" width="200"> | 
-| Swin-T          | <img src="confusion_matrices/swint_auto.png" width="200"><img src="output_swint/auto/ROC_MacroAvg_swint.png" width="200"> | <img src="confusion_matrices/swint_human.png" width="200"><img src="output_swint/human/ROC_MacroAvg_swint.png" width="200"> | 
-| ConvNeXt        | <img src="confusion_matrices/convnext_auto.png" width="200"><img src="output_convnext/auto/ROC_MacroAvg_convnext.png" width="200"> | <img src="confusion_matrices/convnext_human.png" width="200"><img src="output_convnext/human/ROC_MacroAvg_convnext.png" width="200"> | 
+| ResNet34        | <img src="confusion_matrices/resnet34_auto.png" width="150"><img src="output_resnet34/auto/ROC_MacroAvg_resnet34.png" width="150"> | <img src="confusion_matrices/resnet34_human.png" width="150"><img src="output_resnet34/human/ROC_MacroAvg_resnet34.png" width="150"> | 
+| ViT-Base-16     |   <img src="confusion_matrices/vitbase16_auto.png" width="150"><img src="output_vitbase16/auto/ROC_MacroAvg_vitbase16.png" width="150">   |   <img src="confusion_matrices/vitbase16_human.png" width="150"><img src="output_vitbase16/human/ROC_MacroAvg_vitbase16.png" width="150">   | 
+| EfficientNetB0  | <img src="confusion_matrices/efficientnetb0_auto.png" width="150"><img src="output_efficientnetb0/auto/ROC_MacroAvg_efficientnetb0.png" width="150"> | <img src="confusion_matrices/efficientnetb0_human.png" width="150"><img src="output_efficientnetb0/human/ROC_MacroAvg_efficientnetb0.png" width="150"> | 
+| EfficientViT-B0 | <img src="confusion_matrices/efficientvitb0_auto.png" width="150"><img src="output_efficientvitb0/auto/ROC_MacroAvg_efficientvitb0.png" width="150"> | <img src="confusion_matrices/efficientvitb0_human.png" width="150"><img src="output_efficientvitb0/human/ROC_MacroAvg_efficientvitb0.png" width="150"> | 
+| Swin-T          | <img src="confusion_matrices/swint_auto.png" width="150"><img src="output_swint/auto/ROC_MacroAvg_swint.png" width="150"> | <img src="confusion_matrices/swint_human.png" width="150"><img src="output_swint/human/ROC_MacroAvg_swint.png" width="150"> | 
+| ConvNeXt        | <img src="confusion_matrices/convnext_auto.png" width="150"><img src="output_convnext/auto/ROC_MacroAvg_convnext.png" width="150"> | <img src="confusion_matrices/convnext_human.png" width="150"><img src="output_convnext/human/ROC_MacroAvg_convnext.png" width="150"> | 
 
 | ACC                    | AUC                       |
 |------------------------|---------------------------|
 | ![](acc.png) | ![](auc.png) |
+
+**Note**: Other metrics can be viewed in the model corresponding output files.
+
+**Summary Observation**
+
+As shown in the accuracy and AUC comparison plots above, models generally performed slightly better on human-selected frames compared to auto-selected ones. This trend holds across most architectures including ResNet34, EfficientNetB0, ConvNeXt-Tiny, Swin-T, and EfficientViT-B0. However, ViT-Base-16 showed an opposite pattern, where auto-selected frames achieved even higher performance. This suggests that automatic keyframe selection is a feasible strategy, though the result may also be affected by suboptimal hyperparameter tuning for ViT-Base-16. 
+
+| Limitations | Explanations |
+|------------------------|---------------------------|
+| Restricted Label Scope | The model only classifies four conditions (normal, effusion, perforation, tympanosclerosis), which do not fully represent the range of real-world eardrum pathologies. |
+| Limited Dataset Size | After filtering and relabeling, only 299 images remained for training (209), validation (44), and testing (46). This small dataset size limits the generalizability of results. |
+| Class Imbalance & Data Quality Issues | Some classes (e.g., tympanosclerosis) had very few samples, leading to near-zero precision/recall/f1-scores in some models. Additionally, image quality varied due to suboptimal video sources or frame selection, further impacting performance. |
+| Performance Plateau | Most models achieved test accuracies in the 60–70% range. In many cases, models failed to detect underrepresented classes altogether, highlighting the need for more diverse and higher-quality data. |

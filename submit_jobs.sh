@@ -3,9 +3,7 @@
 declare -a MODELS=("resnet34" "convnext" "efficientnetb0" "swint" "vitbase16" "efficientvitb0") 
 declare -a KEYFRAMES=("auto" "human") 
 
-# 2 min is not enough
-
-DELAY=600   # 10 min delay 
+DELAY=1200   # 20 min delay 
 
 for model in "${MODELS[@]}"; do 
   for keyframe in "${KEYFRAMES[@]}"; do 
@@ -20,5 +18,6 @@ done
 echo "✅ All jobs submitted with delays." 
 
 # bash submit_jobs.sh
+
 # beware there is still a chance of crashing if the delay period is not long enough 
 # to run single model, use: sbatch job.slurm <model_name> <data_frame>

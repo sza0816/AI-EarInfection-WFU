@@ -1,0 +1,136 @@
+Training swint on auto_selected frames
+
+Classes with more than 35 images: ['Tympanosclerosis', 'Effusion', 'Normal', 'Perforation']
+Old to New Class Index Mapping: {0: 0, 1: 1, 2: 2, 3: 3}
+Number of samples after filtering and remapping: 299
+New class-to-index mapping: {'Effusion': 0, 'Normal': 1, 'Perforation': 2, 'Tympanosclerosis': 3}
+
+Data splitted successfully: 
+
+Number of training images: 209
+Number of validation images: 44
+Number of test images: 46
+
+Epoch 1/79
+----------
+train Loss: 6.2019 Acc: 0.2775
+val Loss: 5.2752 Acc: 0.0682
+Epoch 2/79
+----------
+train Loss: 5.7979 Acc: 0.2057
+val Loss: 4.4726 Acc: 0.5227
+Epoch 3/79
+----------
+train Loss: 5.3155 Acc: 0.3876
+val Loss: 4.3470 Acc: 0.2045
+Epoch 4/79
+----------
+train Loss: 4.1731 Acc: 0.4785
+val Loss: 3.4803 Acc: 0.6591
+Epoch 5/79
+----------
+train Loss: 3.1240 Acc: 0.7225
+val Loss: 3.6660 Acc: 0.7045
+Epoch 6/79
+----------
+train Loss: 1.5502 Acc: 0.8086
+val Loss: 4.5959 Acc: 0.7045
+Epoch 7/79
+----------
+train Loss: 1.1692 Acc: 0.8900
+val Loss: 3.4964 Acc: 0.6364
+Epoch 8/79
+----------
+train Loss: 1.1805 Acc: 0.8804
+val Loss: 4.4534 Acc: 0.6818
+Epoch 9/79
+----------
+train Loss: 0.8848 Acc: 0.8995
+val Loss: 3.2540 Acc: 0.6818
+Epoch 10/79
+----------
+train Loss: 0.3163 Acc: 0.9761
+val Loss: 2.7962 Acc: 0.7045
+Epoch 11/79
+----------
+train Loss: 0.2492 Acc: 0.9809
+val Loss: 3.0569 Acc: 0.6591
+Epoch 12/79
+----------
+train Loss: 0.1771 Acc: 0.9952
+val Loss: 5.5190 Acc: 0.6818
+Epoch 13/79
+----------
+train Loss: 0.3667 Acc: 0.9952
+val Loss: 5.6885 Acc: 0.7045
+Epoch 14/79
+----------
+train Loss: 0.3221 Acc: 0.9761
+val Loss: 4.5439 Acc: 0.7045
+Epoch 15/79
+----------
+train Loss: 0.1576 Acc: 0.9809
+val Loss: 7.3032 Acc: 0.6591
+Epoch 16/79
+----------
+train Loss: 0.2077 Acc: 0.9809
+val Loss: 5.4780 Acc: 0.5909
+Epoch 17/79
+----------
+train Loss: 0.1390 Acc: 0.9856
+val Loss: 6.7244 Acc: 0.5909
+Epoch 18/79
+----------
+train Loss: 0.3357 Acc: 0.9474
+val Loss: 5.0984 Acc: 0.7955
+Epoch 19/79
+----------
+train Loss: 0.1850 Acc: 0.9856
+val Loss: 6.7676 Acc: 0.6136
+Epoch 20/79
+----------
+train Loss: 0.3315 Acc: 0.9761
+val Loss: 6.7165 Acc: 0.6818
+Epoch 21/79
+----------
+train Loss: 0.5484 Acc: 0.9617
+val Loss: 4.8120 Acc: 0.6591
+Epoch 22/79
+----------
+train Loss: 0.2678 Acc: 0.9904
+val Loss: 4.6425 Acc: 0.6591
+Epoch 23/79
+----------
+train Loss: 0.1607 Acc: 0.9856
+val Loss: 6.3784 Acc: 0.6136
+Early stopping at epoch 23 due to no improvement in validation accuracy for 5 consecutive epochs.
+Best val Acc: 0.795455
+
+Model weights saved at ./model_weights/swint_bs_21_lr_0.00021_epoch_79_wd_0.000186_wlf_True.pth
+
+Evaluating on the test set...
+Evaluation Metrics:
+Accuracy: 0.6957
+AUC: 0.8010
+Precision: 0.4777
+Recall: 0.5742
+F1-score: 0.4992
+
+Confusion Matrix:
+ [[ 5  5  2  0]
+ [ 3 22  0  0]
+ [ 0  0  5  0]
+ [ 0  1  3  0]]
+
+Classification Report:
+               precision    recall  f1-score   support
+
+           0       0.62      0.42      0.50        12
+           1       0.79      0.88      0.83        25
+           2       0.50      1.00      0.67         5
+           3       0.00      0.00      0.00         4
+
+    accuracy                           0.70        46
+   macro avg       0.48      0.57      0.50        46
+weighted avg       0.64      0.70      0.65        46
+

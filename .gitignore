@@ -14,14 +14,12 @@ __pycache__/
 *.ckpt
 *.jpg
 *.jpeg
-*.png
 *.tiff
 *.bmp
 *.gif
 *.csv
 *.tsv
 *.h5
-*.log
 *.out
 *.tmp
 .DS_Store

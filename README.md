@@ -67,11 +67,15 @@ output_param_search/
   └── job_tune_parameter_output.log # Logs all trials and best hyperparameters (up to 200 trials)
 ```
 ## Evaluation
-| Model           | Auto (Confusion Matrix + ROC)                                  | Human (Confusion Matrix + ROC)                                 |
-|----------------|-----------------------------------------------------------------|----------------------------------------------------------------|
-| ResNet34        | ![](confusion_matrices/resnet34_auto.png) <br> ![](output_resnet34/auto/ROC_MacroAvg_resnet34.png)       | ![](confusion_matrices/resnet34_human.png) <br> ![](output_resnet34/human/ROC_MacroAvg_resnet34.png)       |
-| EfficientNetB0  | ![](confusion_matrices/efficientnetb0_auto.png) <br> ![](output_efficientnetb0/auto/ROC_MacroAvg_efficientnetb0.png) | ![](confusion_matrices/efficientnetb0_human.png) <br> ![](output_efficientnetb0/human/ROC_MacroAvg_efficientnetb0.png) |
-| ConvNeXt-Tiny   | ![](confusion_matrices/convnext_auto.png) <br> ![](output_convnext/auto/ROC_MacroAvg_convnext.png)       | ![](confusion_matrices/convnext_human.png) <br> ![](output_convnext/human/ROC_MacroAvg_convnext.png)       |
-| Swin-T          | ![](confusion_matrices/swint_auto.png) <br> ![](output_swint/auto/ROC_MacroAvg_swint.png)               | ![](confusion_matrices/swint_human.png) <br> ![](output_swint/human/ROC_MacroAvg_swint.png)               |
-| ViT-Base-16     | ![](confusion_matrices/vitbase16_auto.png) <br> ![](output_vitbase16/auto/ROC_MacroAvg_vitbase16.png)     | ![](confusion_matrices/vitbase16_human.png) <br> ![](output_vitbase16/human/ROC_MacroAvg_vitbase16.png)     |
-| EfficientViT-B0 | ![](confusion_matrices/efficientvitb0_auto.png) <br> ![](output_efficientvitb0/auto/ROC_MacroAvg_efficientvitb0.png) | ![](confusion_matrices/efficientvitb0_human.png) <br> ![](output_efficientvitb0/human/ROC_MacroAvg_efficientvitb0.png) |
+| Model           | Auto Selected Frames                                                                 | Human Selected Frames                                                                | 
+|-----------------|---------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------| 
+| ResNet34        | <img src="confusion_matrices/resnet34_auto.png" width="200"><img src="output_resnet34/auto/ROC_MacroAvg_resnet34.png" width="200"> | <img src="confusion_matrices/resnet34_human.png" width="200"><img src="output_resnet34/human/ROC_MacroAvg_resnet34.png" width="200"> | 
+| ViT-Base-16     |   <img src="confusion_matrices/vitbase16_auto.png" width="200"><img src="output_vitbase16/auto/ROC_MacroAvg_vitbase16.png" width="200">   |   <img src="confusion_matrices/vitbase16_human.png" width="200"><img src="output_vitbase16/human/ROC_MacroAvg_vitbase16.png" width="200">   | 
+| EfficientNetB0  | <img src="confusion_matrices/efficientnetb0_auto.png" width="200"><img src="output_efficientnetb0/auto/ROC_MacroAvg_efficientnetb0.png" width="200"> | <img src="confusion_matrices/efficientnetb0_human.png" width="200"><img src="output_efficientnetb0/human/ROC_MacroAvg_efficientnetb0.png" width="200"> | 
+| EfficientViT-B0 | <img src="confusion_matrices/efficientvitb0_auto.png" width="200"><img src="output_efficientvitb0/auto/ROC_MacroAvg_efficientvitb0.png" width="200"> | <img src="confusion_matrices/efficientvitb0_human.png" width="200"><img src="output_efficientvitb0/human/ROC_MacroAvg_efficientvitb0.png" width="200"> | 
+| Swin-T          | <img src="confusion_matrices/swint_auto.png" width="200"><img src="output_swint/auto/ROC_MacroAvg_swint.png" width="200"> | <img src="confusion_matrices/swint_human.png" width="200"><img src="output_swint/human/ROC_MacroAvg_swint.png" width="200"> | 
+| ConvNeXt        | <img src="confusion_matrices/convnext_auto.png" width="200"><img src="output_convnext/auto/ROC_MacroAvg_convnext.png" width="200"> | <img src="confusion_matrices/convnext_human.png" width="200"><img src="output_convnext/human/ROC_MacroAvg_convnext.png" width="200"> | 
+
+| ACC                    | AUC                       |
+|------------------------|---------------------------|
+| ![](acc.png) | ![](auc.png) |
